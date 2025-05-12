@@ -1,5 +1,6 @@
 import streamlit as st
 import uuid
+from datetime import datetime
 from graph.agent_flow import AgentFlow
 
 # Initialize sales agent
@@ -13,15 +14,33 @@ if "messages" not in st.session_state:
 
 st.title("SolarSmart AI Sales Assistant 📈☀️")
 
+# Sidebar for contextual information
+with st.sidebar:
+    st.header("Quick Info")
+    st.markdown("💡 **Current Promotions**: 20% off on solar panels!")
+    st.markdown("📋 **FAQs**: [Click here](#)")
+    st.markdown("📞 **Contact Us**: 1-800-SOLAR")
+
 # Display chat history using st.chat_message
 for speaker, msg in st.session_state.messages:
     with st.chat_message("user" if speaker == "You" else "assistant"):
-        st.markdown(msg)
+        st.markdown(f"{msg}")
+
+# Typing indicator
+if "typing" in st.session_state and st.session_state.typing:
+    with st.chat_message("assistant"):
+        st.markdown("🤖 *Assistant is typing...*")
 
 # User input using st.chat_input
 user_input = st.chat_input("You:")
 if user_input:
+    st.session_state.typing = True
+    # st.rerun()
+
+if "typing" in st.session_state and st.session_state.typing:
     reply, needs_human = agent.run(user_input, st.session_state.user_id)
+    st.session_state.typing = False
+
     # Save conversation
     st.session_state.messages.append(("You", user_input))
     if needs_human:
