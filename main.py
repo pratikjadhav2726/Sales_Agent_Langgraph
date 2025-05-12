@@ -28,6 +28,7 @@ if user_input:
         st.session_state.messages.append(("Assistant", "🤖 Awaiting human approval..."))
     else:
         st.session_state.messages.append(("Assistant", reply))
+    st.rerun()
 
 # Human-in-the-loop approval
 if st.session_state.messages and any(msg == "🤖 Awaiting human approval..." for _, msg in st.session_state.messages):
@@ -36,8 +37,10 @@ if st.session_state.messages and any(msg == "🤖 Awaiting human approval..." fo
         if st.button("Approve Response 👍"):
             approved_reply = agent.human_approve_last(st.session_state.user_id)
             st.session_state.messages[-1] = ("Assistant", approved_reply)
+            st.rerun()
     with col2:
-        edited = st.text_input("Edit assistant's reply:")
+        edited = st.text_input("Edit assistant's reply:", key="edit_input")
         if st.button("Reject and Edit ✏️") and edited:
             st.session_state.messages[-1] = ("Assistant", edited)
             agent.save_memory(st.session_state.user_id, f"Assistant: {edited}")
+            st.rerun()
