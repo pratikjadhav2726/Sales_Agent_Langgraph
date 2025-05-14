@@ -21,13 +21,22 @@ class AgentFlow:
         )
 
     def run(self, user_input: str, user_id: str):
+        # System prompt to guide the agent's behavior
+        system_prompt = (
+            "You are a helpful, persuasive sales assistant for SolarSmart. "
+            "Your goal is to help users and encourage them to purchase SolarSmart's solar panels. "
+            "Highlight benefits, answer questions, and always be friendly and proactive in making the sale."
+        )
         # Retrieve past memory
         memory_context = self.memory.get_memory(user_id)
         # Retrieve docs
         docs = self.retriever.get_relevant_docs(user_input)
         docs_text = "\n---\n".join(doc.page_content for doc in docs)
         # Build prompt
-        prompt = f"Memory:\n{memory_context}\nDocuments:\n{docs_text}\nUser: {user_input}\nAssistant:"
+        prompt = (
+            f"{system_prompt}\n\n"
+            f"Memory:\n{memory_context}\nDocuments:\n{docs_text}\nUser: {user_input}\nAssistant:"
+        )
         # Generate response
         response = self.llm.invoke(prompt).content
         # Check if human approval needed

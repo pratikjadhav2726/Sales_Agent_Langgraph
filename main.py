@@ -12,6 +12,12 @@ if "user_id" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# Add starting assistant message if chat is empty
+if not st.session_state.messages:
+    st.session_state.messages.append(
+        ("Assistant", "Hello, I am your SolarSmart assistant. Do you need any help with our solar panels or services?")
+    )
+
 st.title("SolarSmart AI Sales Assistant 📈☀️")
 
 # Sidebar for contextual information
