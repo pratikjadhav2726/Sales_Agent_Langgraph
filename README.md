@@ -26,3 +26,4 @@ An enterprise-grade AI sales assistant for SolarSmart products, built using:
 - **Human-in-the-Loop**: Flag pricing/contract replies for manual approval
 - **UI**: Streamlit interface with chat and approval buttons
  
+<img width="1450" alt="image" src="https://github.com/user-attachments/assets/bf490a95-42b9-450c-947d-05dfeb545932" />
