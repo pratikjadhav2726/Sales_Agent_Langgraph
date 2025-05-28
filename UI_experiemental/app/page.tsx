@@ -30,7 +30,14 @@ export default function SalesAgentDashboard() {
   useEffect(() => {
     const fetchInitialState = async () => {
       try {
-        const response = await fetch("/api/init")
+        // Update /api/init call to POST with an empty JSON body
+        const response = await fetch("/api/init", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({}), // Send empty JSON object
+        })
         const data = await response.json()
 
         if (data.messages && data.messages.length > 0) {
